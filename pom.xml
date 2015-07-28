@@ -6,6 +6,10 @@
 
     <properties>
         <dropwizard.version>0.8.2</dropwizard.version>
+        <dockerImageName>epv-server</dockerImageName>
+        <dockerDeployRegistryHost>estimatedplacentalvolume/</dockerDeployRegistryHost>
+        <dockerDeployTag>latest</dockerDeployTag>
+        <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
 
     <dependencies>
@@ -73,6 +77,68 @@
                     <source>1.8</source>
                     <target>1.8</target>
                 </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>net.wouterdanes.docker</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>build</id>
+                        <goals>
+                            <goal>build-images</goal>
+                        </goals>
+                        <configuration>
+                            <images>
+                                <image>
+                                    <id>${dockerImageName}</id>
+                                    <dockerFile>${project.basedir}/src/main/docker/Dockerfile</dockerFile>
+                                    <artifacts>
+                                        <artifact>
+                                            <file>${project.build.directory}/epvserver-1.0.0-SNAPSHOT.jar</file>
+                                            <dest>epvserver.jar</dest>
+                                        </artifact>
+                                        <artifact>
+                                            <file>${project.basedir}/hello-world.yml</file>
+                                        </artifact>
+                                    </artifacts>
+                                    <keep>true</keep>
+                                    <nameAndTag>${dockerImageName}</nameAndTag>
+                                </image>
+                            </images>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>release</id>
+                        <goals>
+                            <goal>tag-images</goal>
+                        </goals>
+                        <configuration>
+                            <images>
+                                <image>
+                                    <id>${dockerImageName}</id>
+                                    <tags>
+                                        <tag>${dockerDeployRegistryHost}${dockerImageName}:${dockerDeployTag}</tag>
+                                    </tags>
+                                    <push>true</push>
+                                </image>
+                            </images>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>verify</id>
+                        <goals>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>push</id>
+                        <goals>
+                            <goal>push-images</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

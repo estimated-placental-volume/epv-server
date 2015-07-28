@@ -1,0 +1,3 @@
+epvserver:
+  image: estimatedplacentalvolume/epv-server:latest
+  net: host
