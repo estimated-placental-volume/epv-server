@@ -1,12 +1,17 @@
 package net.epv.epvserver;
 
 import io.dropwizard.Application;
+import io.dropwizard.auth.AuthFactory;
+import io.dropwizard.auth.basic.BasicAuthFactory;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import net.epv.epvserver.auth.EpvServerAuthenticator;
 import net.epv.epvserver.health.TemplateHealthCheck;
 import net.epv.epvserver.resources.DataPointResource;
 import net.epv.epvserver.resources.HelloWorldResource;
 import net.epv.epvserver.resources.UserProfileResource;
+
+import java.util.UUID;
 
 /**
  * Dropwizard application class for EpvServer
@@ -39,6 +44,10 @@ public class EpvServerApplication extends Application<EpvServerConfiguration> {
         environment.jersey().register(resource);
         environment.jersey().register(new UserProfileResource());
         environment.jersey().register(new DataPointResource());
+        environment.jersey().register(AuthFactory.binder(new BasicAuthFactory<>(
+                new EpvServerAuthenticator(),
+                "DEFAULT REALM",
+                UUID.class)));
         environment.healthChecks().register("template", healthCheck);
     }
 }

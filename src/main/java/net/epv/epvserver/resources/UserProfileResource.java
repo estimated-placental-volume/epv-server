@@ -1,5 +1,6 @@
 package net.epv.epvserver.resources;
 
+import io.dropwizard.auth.Auth;
 import net.epv.epvserver.core.UserProfile;
 
 import javax.ws.rs.Consumes;
@@ -21,7 +22,7 @@ public class UserProfileResource {
     }
 
     @POST
-    public UserProfile addUserProfile(UserProfile userProfile) {
+    public UserProfile addUserProfile(@Auth UUID userId, UserProfile userProfile) {
         return new UserProfile(
                 UUID.randomUUID(),
                 userProfile.getHeight());
