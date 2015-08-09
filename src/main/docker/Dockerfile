@@ -4,8 +4,8 @@ MAINTAINER Milad Fatenejad
 RUN mkdir -p /opt/epv-server
 
 COPY epvserver.jar /opt/epv-server/epvserver.jar
-COPY hello-world.yml /opt/epv-server/hello-world.yml
+COPY epv-server.yml /opt/epv-server/epv-server.yml
 
 ENTRYPOINT ["java", "-jar", "/opt/epv-server/epvserver.jar"]
 
-CMD ["server", "/opt/epv-server/hello-world.yml"]
+CMD ["server", "/opt/epv-server/epv-server.yml"]

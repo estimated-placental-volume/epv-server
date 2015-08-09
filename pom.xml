@@ -105,7 +105,7 @@
                                             <dest>epvserver.jar</dest>
                                         </artifact>
                                         <artifact>
-                                            <file>${project.basedir}/hello-world.yml</file>
+                                            <file>${project.basedir}/epv-server.yml</file>
                                         </artifact>
                                     </artifacts>
                                     <keep>true</keep>
