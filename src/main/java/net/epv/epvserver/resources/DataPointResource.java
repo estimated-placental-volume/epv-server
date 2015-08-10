@@ -3,6 +3,7 @@ package net.epv.epvserver.resources;
 import io.dropwizard.auth.Auth;
 import net.epv.epvserver.core.DataPoint;
 
+import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -16,7 +17,7 @@ import java.util.UUID;
 public class DataPointResource {
 
     @POST
-    public DataPoint createDataPoint(@Auth UUID userId, DataPoint dataPoint) {
+    public DataPoint createDataPoint(@Auth UUID userId, @Valid DataPoint dataPoint) {
         return dataPoint;
     }
 }
