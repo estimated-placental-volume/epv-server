@@ -6,9 +6,7 @@ import io.dropwizard.auth.basic.BasicAuthFactory;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import net.epv.epvserver.auth.EpvServerAuthenticator;
-import net.epv.epvserver.health.TemplateHealthCheck;
 import net.epv.epvserver.resources.DataPointResource;
-import net.epv.epvserver.resources.HelloWorldResource;
 import net.epv.epvserver.resources.UserProfileResource;
 import net.epv.epvserver.resources.WelcomeResource;
 
@@ -35,21 +33,12 @@ public class EpvServerApplication extends Application<EpvServerConfiguration> {
 
     @Override
     public void run(EpvServerConfiguration configuration, Environment environment) throws Exception {
-        final HelloWorldResource resource = new HelloWorldResource(
-                configuration.getTemplate(),
-                configuration.getDefaultName()
-        );
-
-        final TemplateHealthCheck healthCheck = new TemplateHealthCheck(configuration.getTemplate());
-
-        environment.jersey().register(resource);
         environment.jersey().register(new WelcomeResource());
         environment.jersey().register(new UserProfileResource());
         environment.jersey().register(new DataPointResource());
         environment.jersey().register(AuthFactory.binder(new BasicAuthFactory<>(
-                new EpvServerAuthenticator(),
+                new EpvServerAuthenticator(configuration.getSha256Password()),
                 "DEFAULT REALM",
                 UUID.class)));
-        environment.healthChecks().register("template", healthCheck);
     }
 }

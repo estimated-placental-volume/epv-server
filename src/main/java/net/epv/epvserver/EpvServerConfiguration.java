@@ -1,37 +1,26 @@
 package net.epv.epvserver;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.dropwizard.Configuration;
-import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * Dropwizard configuration class for EpvServer
  */
 public class EpvServerConfiguration extends Configuration {
 
-    @NotEmpty
-    private String defaultName = "Stranger";
+    @NotNull
+    private String sha256Password;
 
-    @NotEmpty
-    private String template;
-
-    @JsonProperty
-    public String getDefaultName() {
-        return defaultName;
+    @JsonCreator
+    public EpvServerConfiguration(@JsonProperty("sha256Password") String sha256Password) {
+        this.sha256Password = sha256Password;
     }
 
-    @JsonProperty
-    public void setDefaultName(String defaultName) {
-        this.defaultName = defaultName;
-    }
-
-    @JsonProperty
-    public String getTemplate() {
-        return template;
-    }
-
-    @JsonProperty
-    public void setTemplate(String template) {
-        this.template = template;
+    @JsonProperty("sha256Password")
+    public String getSha256Password() {
+        return sha256Password;
     }
 }
