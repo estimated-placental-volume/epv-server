@@ -6,7 +6,7 @@ import io.dropwizard.auth.basic.BasicAuthFactory;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import net.epv.epvserver.auth.EpvServerAuthenticator;
-import net.epv.epvserver.resources.DataPointResource;
+import net.epv.epvserver.resources.DataResource;
 import net.epv.epvserver.resources.UserProfileResource;
 import net.epv.epvserver.resources.WelcomeResource;
 
@@ -35,7 +35,7 @@ public class EpvServerApplication extends Application<EpvServerConfiguration> {
     public void run(EpvServerConfiguration configuration, Environment environment) throws Exception {
         environment.jersey().register(new WelcomeResource());
         environment.jersey().register(new UserProfileResource());
-        environment.jersey().register(new DataPointResource());
+        environment.jersey().register(new DataResource());
         environment.jersey().register(AuthFactory.binder(new BasicAuthFactory<>(
                 new EpvServerAuthenticator(configuration.getSha256Password()),
                 "DEFAULT REALM",

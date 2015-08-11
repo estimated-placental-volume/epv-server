@@ -32,7 +32,7 @@ public class UserProfile {
     }
 
     @JsonProperty("id")
-    public UUID getUuid() {
+    public UUID getId() {
         return id;
     }
 
