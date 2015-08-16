@@ -7,6 +7,7 @@ import io.dropwizard.jdbi.DBIFactory;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import net.epv.epvserver.auth.EpvServerAuthenticator;
+import net.epv.epvserver.jdbi.UUIDArgumentFactory;
 import net.epv.epvserver.jdbi.UserProfileDao;
 import net.epv.epvserver.resources.DataResource;
 import net.epv.epvserver.resources.UserProfileResource;
@@ -37,13 +38,15 @@ public class EpvServerApplication extends Application<EpvServerConfiguration> {
 
         DBIFactory factory = new DBIFactory();
         DBI jdbi = factory.build(environment, configuration.getDatabase(), "mysql");
+        jdbi.registerArgumentFactory(new UUIDArgumentFactory());
+
         UserProfileDao userProfileDao = jdbi.onDemand(UserProfileDao.class);
 
         // Create database schema:
         userProfileDao.createUserProfileTable();
 
         environment.jersey().register(new WelcomeResource());
-        environment.jersey().register(new UserProfileResource());
+        environment.jersey().register(new UserProfileResource(userProfileDao));
         environment.jersey().register(new DataResource());
         environment.jersey().register(AuthFactory.binder(new BasicAuthFactory<>(
                 new EpvServerAuthenticator(configuration.getUserName(), configuration.getSha256Password()),

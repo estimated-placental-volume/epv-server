@@ -2,6 +2,7 @@ package net.epv.epvserver.resources;
 
 import io.dropwizard.auth.Auth;
 import net.epv.epvserver.core.UserProfile;
+import net.epv.epvserver.jdbi.UserProfileDao;
 
 import javax.validation.Valid;
 import javax.ws.rs.*;
@@ -17,7 +18,10 @@ import java.util.UUID;
 @Consumes(MediaType.APPLICATION_JSON)
 public class UserProfileResource {
 
-    public UserProfileResource() {
+    private final UserProfileDao userProfileDao;
+
+    public UserProfileResource(UserProfileDao userProfileDao) {
+        this.userProfileDao = userProfileDao;
     }
 
     @POST
@@ -29,6 +33,8 @@ public class UserProfileResource {
         if(! (userProfile.getId().equals(profileId))) {
             throw new WebApplicationException("Inconsistent user profile ID", Response.Status.BAD_REQUEST);
         }
+        
+        userProfileDao.insert(userProfile);
 
         return userProfile;
     }
