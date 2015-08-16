@@ -1,11 +1,13 @@
 FROM java:8
 MAINTAINER Milad Fatenejad
 
-RUN mkdir -p /opt/epv-server
+RUN apt-get update && apt-get -y install netcat && \
+    mkdir -p /opt/epv-server
 
 COPY epvserver.jar /opt/epv-server/epvserver.jar
 COPY epv-server.yml /opt/epv-server/epv-server.yml
+COPY start-epv-server.sh /usr/local/bin/start-epv-server.sh
 
-ENTRYPOINT ["java", "-jar", "/opt/epv-server/epvserver.jar"]
+RUN chmod a+x /usr/local/bin/start-epv-server.sh
 
-CMD ["server", "/opt/epv-server/epv-server.yml"]
+CMD ["start-epv-server.sh"]

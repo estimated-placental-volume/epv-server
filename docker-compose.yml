@@ -1,10 +1,15 @@
 epvserver:
   image: estimatedplacentalvolume/epv-server:latest
-  net: host
+  ports:
+    - 8080:8080
+    - 8081:8081
   links:
-    - db
+    - mysql:mysql
 
-db:
+mysql:
   image: mysql:5.5
   environment:
-    - MYSQL_ROOT_PASSWORD=my_sql_password
+    - MYSQL_ROOT_PASSWORD=my_sql_root_password
+    - MYSQL_DATABASE=epv
+    - MYSQL_USER=epv
+    - MYSQL_PASSWORD=my_sql_epv_password
