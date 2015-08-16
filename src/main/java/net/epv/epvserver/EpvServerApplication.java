@@ -3,12 +3,15 @@ package net.epv.epvserver;
 import io.dropwizard.Application;
 import io.dropwizard.auth.AuthFactory;
 import io.dropwizard.auth.basic.BasicAuthFactory;
+import io.dropwizard.jdbi.DBIFactory;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import net.epv.epvserver.auth.EpvServerAuthenticator;
+import net.epv.epvserver.jdbi.UserProfileDao;
 import net.epv.epvserver.resources.DataResource;
 import net.epv.epvserver.resources.UserProfileResource;
 import net.epv.epvserver.resources.WelcomeResource;
+import org.skife.jdbi.v2.DBI;
 
 /**
  * Dropwizard application class for EpvServer
@@ -31,6 +34,14 @@ public class EpvServerApplication extends Application<EpvServerConfiguration> {
 
     @Override
     public void run(EpvServerConfiguration configuration, Environment environment) throws Exception {
+
+        DBIFactory factory = new DBIFactory();
+        DBI jdbi = factory.build(environment, configuration.getDatabase(), "mysql");
+        UserProfileDao userProfileDao = jdbi.onDemand(UserProfileDao.class);
+
+        // Create database schema:
+        userProfileDao.createUserProfileTable();
+
         environment.jersey().register(new WelcomeResource());
         environment.jersey().register(new UserProfileResource());
         environment.jersey().register(new DataResource());
