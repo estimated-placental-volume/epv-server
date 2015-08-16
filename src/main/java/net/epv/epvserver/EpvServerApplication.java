@@ -10,8 +10,6 @@ import net.epv.epvserver.resources.DataResource;
 import net.epv.epvserver.resources.UserProfileResource;
 import net.epv.epvserver.resources.WelcomeResource;
 
-import java.util.UUID;
-
 /**
  * Dropwizard application class for EpvServer
  */
@@ -37,8 +35,8 @@ public class EpvServerApplication extends Application<EpvServerConfiguration> {
         environment.jersey().register(new UserProfileResource());
         environment.jersey().register(new DataResource());
         environment.jersey().register(AuthFactory.binder(new BasicAuthFactory<>(
-                new EpvServerAuthenticator(configuration.getSha256Password()),
+                new EpvServerAuthenticator(configuration.getUserName(), configuration.getSha256Password()),
                 "DEFAULT REALM",
-                UUID.class)));
+                String.class)));
     }
 }

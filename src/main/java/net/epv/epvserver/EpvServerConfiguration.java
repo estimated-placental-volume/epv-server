@@ -12,11 +12,21 @@ import javax.validation.constraints.NotNull;
 public class EpvServerConfiguration extends Configuration {
 
     @NotNull
-    private String sha256Password;
+    private final String sha256Password;
+
+    @NotNull
+    private final String userName;
 
     @JsonCreator
-    public EpvServerConfiguration(@JsonProperty("sha256Password") String sha256Password) {
+    public EpvServerConfiguration(@JsonProperty("userName") String userName,
+                                  @JsonProperty("sha256Password") String sha256Password) {
+        this.userName = userName;
         this.sha256Password = sha256Password;
+    }
+
+    @JsonProperty("userName")
+    public String getUserName() {
+        return userName;
     }
 
     @JsonProperty("sha256Password")

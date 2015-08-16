@@ -15,12 +15,12 @@ import java.util.UUID;
 public class DataResource {
 
     @POST
-    public DataPoint createDataPoint(@Auth UUID userId,
+    public DataPoint createDataPoint(@Auth String userName,
                                      @PathParam("profileId") UUID profileId,
                                      @PathParam("dataId") UUID dataId,
                                      @Valid DataPoint dataPoint) {
         // Validate:
-        if( ! (userId.equals(profileId) && dataPoint.getProfileId().equals(profileId)) ) {
+        if( ! (dataPoint.getProfileId().equals(profileId)) ) {
             throw new WebApplicationException("Inconsistent user profile ID", Response.Status.BAD_REQUEST);
         }
 

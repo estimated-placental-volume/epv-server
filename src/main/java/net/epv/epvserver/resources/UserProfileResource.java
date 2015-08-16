@@ -21,12 +21,12 @@ public class UserProfileResource {
     }
 
     @POST
-    public UserProfile addProfile(@Auth UUID userId,
+    public UserProfile addProfile(@Auth String userName,
                                   @PathParam("profileId") UUID profileId,
                                   @Valid UserProfile userProfile) {
 
         // Validate:
-        if(! (userId.equals(profileId) && userProfile.getId().equals(profileId))) {
+        if(! (userProfile.getId().equals(profileId))) {
             throw new WebApplicationException("Inconsistent user profile ID", Response.Status.BAD_REQUEST);
         }
 
@@ -34,12 +34,12 @@ public class UserProfileResource {
     }
 
     @PUT
-    public UserProfile modifyProfile(@Auth UUID userId,
+    public UserProfile modifyProfile(@Auth String userName,
                                      @PathParam("profileId") UUID profileId,
                                      @Valid UserProfile userProfile) {
 
         // Validate:
-        if(! (userId.equals(profileId) && userProfile.getId().equals(profileId))) {
+        if(! (userProfile.getId().equals(profileId))) {
             throw new WebApplicationException("Inconsistent user profile ID", Response.Status.BAD_REQUEST);
         }
 
