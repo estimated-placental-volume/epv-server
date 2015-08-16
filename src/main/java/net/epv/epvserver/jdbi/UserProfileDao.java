@@ -9,10 +9,16 @@ import org.skife.jdbi.v2.sqlobject.SqlUpdate;
  */
 public interface UserProfileDao {
 
-    @SqlUpdate("create table user_profile (id char(36) primary key, dob double, height double)")
-    void createUserProfileTable();
+    @SqlUpdate("create table user_profile (" +
+            "id     char(36) not null," +
+            "dob    double   not null," +
+            "height double   not null," +
+            "primary key (id) )")
+    void createTable();
 
     @SqlUpdate("insert into user_profile (id, dob, height) values (:id, :dob, :height)")
     int insert(@BindBean UserProfile userProfile);
 
+    @SqlUpdate("update user_profile set dob = :dob, height = :height where id = :id")
+    int update(@BindBean UserProfile s);
 }
