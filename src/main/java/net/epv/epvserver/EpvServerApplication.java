@@ -7,6 +7,7 @@ import io.dropwizard.jdbi.DBIFactory;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import net.epv.epvserver.auth.EpvServerAuthenticator;
+import net.epv.epvserver.jdbi.DataPointDao;
 import net.epv.epvserver.jdbi.UUIDArgumentFactory;
 import net.epv.epvserver.jdbi.UserProfileDao;
 import net.epv.epvserver.resources.DataResource;
@@ -41,13 +42,16 @@ public class EpvServerApplication extends Application<EpvServerConfiguration> {
         jdbi.registerArgumentFactory(new UUIDArgumentFactory());
 
         UserProfileDao userProfileDao = jdbi.onDemand(UserProfileDao.class);
+        DataPointDao dataPointDao = jdbi.onDemand(DataPointDao.class);
 
         // Create database schema:
-        userProfileDao.createUserProfileTable();
+        userProfileDao.createTable();
+        dataPointDao.createTable();
 
+        // Build environment:
         environment.jersey().register(new WelcomeResource());
         environment.jersey().register(new UserProfileResource(userProfileDao));
-        environment.jersey().register(new DataResource());
+        environment.jersey().register(new DataResource(dataPointDao));
         environment.jersey().register(AuthFactory.binder(new BasicAuthFactory<>(
                 new EpvServerAuthenticator(configuration.getUserName(), configuration.getSha256Password()),
                 "DEFAULT REALM",
