@@ -8,6 +8,8 @@ epvserver:
     - mysql:mysql
   environment:
     - DEBUG=true
+    - EPV_SERVER_USER=epvapp
+    - EPV_SERVER_SHA256_PASSWORD=a4aae22c3cf93d97c13715c097e57cc987f5c3cebb71c26887ac6f088f0d9a17
 
 mysql:
   image: mysql:5.5
