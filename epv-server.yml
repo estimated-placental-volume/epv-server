@@ -1,5 +1,5 @@
-sha256Password: a4aae22c3cf93d97c13715c097e57cc987f5c3cebb71c26887ac6f088f0d9a17
-userName: epvapp
+sha256Password: %EPV_SERVER_SHA256_PASSWORD%
+userName: %EPV_SERVER_USER%
 
 database:
   driverClass: com.mysql.jdbc.Driver
