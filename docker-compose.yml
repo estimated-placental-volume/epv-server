@@ -3,7 +3,6 @@ epvserver:
   ports:
     - 8080:8080
     - 8081:8081
-    - 8000:8000
   links:
     - mysql:mysql
   environment:
@@ -18,3 +17,11 @@ mysql:
     - MYSQL_DATABASE=epv
     - MYSQL_USER=epv
     - MYSQL_PASSWORD=my_sql_epv_password
+
+epvnginx:
+  image: estimatedplacentalvolume/epv-nginx:latest
+  links:
+    - epvserver:epv-server
+  ports:
+    - 80:80
+    - 443:443

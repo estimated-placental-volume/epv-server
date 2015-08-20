@@ -4,8 +4,8 @@ set -e
 sed -i "s/%MYSQL_PORT_3306_TCP_PORT%/${MYSQL_PORT_3306_TCP_PORT?}/" /opt/epv-server/epv-server.yml
 sed -i "s/%MYSQL_USER%/${MYSQL_ENV_MYSQL_USER?}/" /opt/epv-server/epv-server.yml
 sed -i "s/%MYSQL_PASSWORD%/${MYSQL_ENV_MYSQL_PASSWORD?}/" /opt/epv-server/epv-server.yml
-sed -i "s/%EPV_SERVER_SHA256_PASSWORD%/${EPV_SERVER_SHA256_PASSWORD?}/" /opt/epv-server/epv-server.yml
-sed -i "s/%EPV_SERVER_USER%/${EPV_SERVER_USER?}/" /opt/epv-server/epv-server.yml
+sed -i "s/%EPV_SERVER_SHA256_PASSWORD%/${EPV_SERVER_SHA256_PASSWORD:-2bb80d537b1da3e38bd30361aa855686bde0eacd7162fef6a25fe97bf527a25b}/" /opt/epv-server/epv-server.yml
+sed -i "s/%EPV_SERVER_USER%/${EPV_SERVER_USER:-epvapp}/" /opt/epv-server/epv-server.yml
 
 # Wait for MySQL to Start:
 num_attempts="120"
