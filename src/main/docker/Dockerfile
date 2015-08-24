@@ -10,4 +10,6 @@ COPY start-epv-server.sh /usr/local/bin/start-epv-server.sh
 
 RUN chmod a+x /usr/local/bin/start-epv-server.sh
 
+EXPOSE 8080 8081
+
 CMD ["start-epv-server.sh"]
