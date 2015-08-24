@@ -9,7 +9,7 @@ import org.skife.jdbi.v2.sqlobject.SqlUpdate;
  */
 public interface DataPointDao {
 
-    @SqlUpdate("create table data_point (" +
+    @SqlUpdate("create table if not exists data_point (" +
             "id         char(36) not null," +
             "profile_id char(36) not null," +
             "timestamp  double   not null," +
