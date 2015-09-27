@@ -38,6 +38,10 @@ public class DataPoint {
     @NotNull
     private final Integer days;
 
+    private final Double motherWeight;
+    private final Double motherBpSystolic;
+    private final Double motherBpDiastolic;
+
     @JsonCreator
     public DataPoint(@JsonProperty("id") UUID id,
                      @JsonProperty("profileId") UUID profileId,
@@ -48,7 +52,10 @@ public class DataPoint {
                      @JsonProperty("epv") Double epv,
                      @JsonProperty("percentile") Double percentile,
                      @JsonProperty("weeks") Integer weeks,
-                     @JsonProperty("days") Integer days) {
+                     @JsonProperty("days") Integer days,
+                     @JsonProperty("mother_weight") Double motherWeight,
+                     @JsonProperty("mother_bp_systolic") Double motherBpSystolic,
+                     @JsonProperty("mother_bp_diastolic") Double motherBpDiastolic) {
         this.id = id;
         this.profileId = profileId;
         this.timestamp = timestamp;
@@ -59,6 +66,9 @@ public class DataPoint {
         this.percentile = percentile;
         this.weeks = weeks;
         this.days = days;
+        this.motherWeight = motherWeight;
+        this.motherBpSystolic = motherBpSystolic;
+        this.motherBpDiastolic = motherBpDiastolic;
     }
 
 
@@ -110,5 +120,20 @@ public class DataPoint {
     @JsonProperty("days")
     public Integer getDays() {
         return days;
+    }
+
+    @JsonProperty("mother_weight")
+    public Double getMotherWeight() {
+        return motherWeight;
+    }
+
+    @JsonProperty("mother_bp_systolic")
+    public Double getMotherBpSystolic() {
+        return motherBpSystolic;
+    }
+
+    @JsonProperty("mother_bp_diastolic")
+    public Double getMotherBpDiastolic() {
+        return motherBpDiastolic;
     }
 }
